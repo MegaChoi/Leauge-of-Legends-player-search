@@ -1,10 +1,16 @@
 import axios from "axios";
 
 
-const apiKey = "RGAPI-5e436d11-5ab3-4af3-917d-33c6fde59af5";
+const apiKey = "RGAPI-1cfa2f4c-cc27-4c19-9ff5-0b7d950098a5";
 const api = {
-  getPlayer: (playerName) => {
-    return axios.get(`https://oc1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${playerName}?api_key=${apiKey}`);
+  getPlayer: async (playerName) => {
+    try {
+      const response = await axios.get(`https://oc1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${playerName}?api_key=${apiKey}`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   },
   getMatches: (puuid) => {
     console.log(puuid);

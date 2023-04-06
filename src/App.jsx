@@ -24,7 +24,7 @@ class ErrorBoundary extends Component {
 
 function App() {
   const [playerData, setPlayerData] = useState({});
-
+  
   const setData = (data) => {
     setPlayerData(data);
   }
@@ -32,12 +32,10 @@ function App() {
   return (
     <BrowserRouter>
       <ErrorBoundary>
-        <div className='h-screen'>
           <Navbar/>
-          <Header/>
+          <Header playerName={playerData.name}/>
           <SearchBox setData = {setData}/>
-          <Content playerData={playerData}/>
-        </div>
+          {/* <Content playerData={playerData}/> */}
       </ErrorBoundary>
     </BrowserRouter>
   );

@@ -5,12 +5,12 @@ const Content = ({playerData}) => {
 
     return (
         <div className = "w-full">
-            <div className = "flex mx-56 my-10">   
-                <div className="w-2/3">
+            <div className = " mx-56 my-10">   
+                <div className="">
                 {JSON.stringify(playerData) != "{}"  ? (<img  className = "h-28 w-28 rounded-xl" src = {API.getProfileIcon(playerData.profileIconId)}/>) : ""}
                 </div>
 
-                <div className="w-1/3">
+                <div className="">
                     fdasfasd
                 </div>
             </div>
