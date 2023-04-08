@@ -34,17 +34,23 @@ function Content ({playerData}) {
     useEffect(() => {
       if(mounted){
         getMatches();
-        getWinPercentage();
       }else{
         setMounted(true);
       }
+      
     }, [playerData]);
 
+    useEffect(() => {
+      if (matches) {
+        getWinPercentage();
+      }
+    }, [matches]);
 
     async function getMatches() {
       try {
         const data = await api.getMatches(playerData.puuid);
         setMatches(data);
+        
       } catch (error) {
         console.error(error);
       }
@@ -100,13 +106,6 @@ function Content ({playerData}) {
       }
     }
 
-
-
-
-
-
-
-    
     const options = {
       responsive: false,
       plugins: {

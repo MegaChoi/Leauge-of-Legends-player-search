@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const apiKey = "RGAPI-79f9fa59-df1b-4111-8504-3d581b4c44dd";
+const apiKey = import.meta.env.VITE_MY_API_KEY ;
 const api = {
   getPlayer: async (playerName) => {
     try {
