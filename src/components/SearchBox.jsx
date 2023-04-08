@@ -11,17 +11,17 @@ function SearchBox({setData}) {
   const SearchForPlayer = async(e) => {
     e.preventDefault(); // Prevents the form from submitting and refreshing the page
     try {
+      // console.log(query);
       const data = await api.getPlayer(query);
       if(data != null){
         setData(data);
         setStatus("yes player found");
-        console.log(data);
       }else{
-        setData({name:"NOTFOUND"})
+        setData({name:"NOTFOUND"});
         setStatus("no player found");
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 
