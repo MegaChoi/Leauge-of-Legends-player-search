@@ -20,7 +20,7 @@ function Content ({playerData}) {
         labels: ['Win', 'Loss'],
         datasets: [
           {
-            data: [62,30],
+            data: [0,0],
             backgroundColor: [
               'rgb(54, 162, 235)',
               'rgb(255, 99, 132)',
@@ -32,6 +32,16 @@ function Content ({playerData}) {
     );
 
     useEffect(() => {
+      async function getMatches() {
+        try {
+          const data = await api.getMatches(playerData.puuid);
+          setMatches(data);
+          
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
       if(mounted){
         getMatches();
       }else{
@@ -46,15 +56,7 @@ function Content ({playerData}) {
       }
     }, [matches]);
 
-    async function getMatches() {
-      try {
-        const data = await api.getMatches(playerData.puuid);
-        setMatches(data);
-        
-      } catch (error) {
-        console.error(error);
-      }
-    }
+
 
     function getWinPercentage(){
       var gameWin = 0;
@@ -73,24 +75,16 @@ function Content ({playerData}) {
               }
             }
           });
-          console.log(gameWin)
-          // const data = [gameWin, 10-gameWin];
-    
-          // const newGameData = {data,...gameData};
+          console.log(gameWin);
     
           setGameData({
-            labels: ['Win', 'Loss'],
+            ...gameData,
             datasets: [
               {
-                data: [gameWin, 12-gameWin],
-                backgroundColor: [
-                  'rgb(54, 162, 235)',
-                  'rgb(255, 99, 132)',
-                  
-                ],
-                hoverOffset: 4,
-              },
-            ],
+                ...gameData.datasets[0],
+                data: [gameWin, 12 - gameWin]
+              }
+            ]
           });
         }
       }catch (error){
