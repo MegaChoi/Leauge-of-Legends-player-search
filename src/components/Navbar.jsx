@@ -5,7 +5,7 @@ const Navbar = () => {
     <nav className='relative container mx-auto p-6'>
       {/* flex container */}
       <div className='flex items-center justify-between'>
-        <span className=' font-bold font-mono text-3xl'>RateMyGame</span>
+        <span className=' font-bold font-mono text-3xl'>MyFavouriteSummoner</span>
         {/* menu items */}
           <div className='flex space-x-6 font-bold'>
               <div>Leaderboards</div>

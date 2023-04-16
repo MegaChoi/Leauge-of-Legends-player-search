@@ -5,7 +5,7 @@ function SearchBox({setData}) {
 
   
   const [query, setQuery] = useState("");
-  const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
 
 
   const SearchForPlayer = async(e) => {
@@ -15,10 +15,10 @@ function SearchBox({setData}) {
       const data = await api.getPlayer(query);
       if(data != null){
         setData(data);
-        setStatus("yes player found");
+        // setStatus("yes player found");
       }else{
         setData({name:"NOTFOUND"});
-        setStatus("no player found");
+        // setStatus("no player found");
       }
     } catch (error) {
       // console.error(error);
@@ -38,9 +38,9 @@ function SearchBox({setData}) {
         </div>
 
         {/* displayer player name or no found // animation */}
-        <div>
+        {/* <div>
           <p>{status}</p>
-        </div>
+        </div> */}
       </div>
     </section>
   );

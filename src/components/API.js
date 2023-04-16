@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import firebase from 'firebase/app';
 
 const apiKey = import.meta.env.VITE_MY_API_KEY ;
 const api = {
@@ -20,7 +20,6 @@ const api = {
       // console.log(matchIds.data);
       await Promise.all(matchIds.data.map(async (matchId) => {
         const ans = await axios.get(`https://sea.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiKey}`);
-        // console.log(ans.data.metadata);
         response.push(ans.data);
       }));
       return response;

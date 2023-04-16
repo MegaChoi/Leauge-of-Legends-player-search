@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import api from "./API";
+import { FaStar } from "react-icons/fa";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 
@@ -15,12 +16,13 @@ ChartJS.register(
 function Content ({playerData}) {
     const [matches, setMatches] = useState(null);
     const [mounted, setMounted] = useState(false);
+    const [star, setStar] = useState(false);
     const [gameData, setGameData ] = useState(
       {
-        labels: ['Win', 'Loss'],
+
         datasets: [
           {
-            data: [0,0],
+            data: [6,6],
             backgroundColor: [
               'rgb(54, 162, 235)',
               'rgb(255, 99, 132)',
@@ -56,8 +58,6 @@ function Content ({playerData}) {
       }
     }, [matches]);
 
-
-
     function getWinPercentage(){
       var gameWin = 0;
       try{
@@ -75,7 +75,7 @@ function Content ({playerData}) {
               }
             }
           });
-          console.log(gameWin);
+          // console.log(gameWin);
     
           setGameData({
             ...gameData,
@@ -94,12 +94,15 @@ function Content ({playerData}) {
 
     function getProfileIcon() {
       if (playerData.name !== "NOTFOUND") {
-        return <img className="h-28 w-28 rounded-xl" src={api.getProfileIcon(playerData.profileIconId)} />;
+        return <img className="h-28 w-28 rounded-xl border border-white border-4 " src={api.getProfileIcon(playerData.profileIconId)} />;
       } else {
-        return null;
+        return <img className="h-28 w-28 bg-green-100 rounded-xl border border-white border-4" alt = "profile icon"/>;
       }
     }
-
+    function starStatus () {
+      setStar(!star);
+      console.log(star)
+    };
     const options = {
       responsive: false,
       plugins: {
@@ -116,14 +119,17 @@ function Content ({playerData}) {
     return (
         // 
         <section className="pt-6">
-            <div className="container flex flex-col py-6 mx-auto md:w-1/2 md:flex-row items-center bg-black rounded-md" >
+            <div className="container flex flex-col py-6 mx-auto md:w-1/2 md:flex-row items-center bg-black bg-opacity-90 rounded-md" >
               <div className="flex flex-col">
-                <div className="mx-auto pt-6">
+                <div className="mx-auto pt-6 flex flex-col" >
                   {getProfileIcon()}
+                  <div className="flex justify-center items-center m-[-17px] pb-3">
+                    <FaStar onClick={starStatus} size={25} color={star ? "gold" : "gray"}/>
+                  </div>
                 </div>
                 
-                
-                <div className="pt-6">
+                <div className="text-center pt-3 text-white">{playerData.name != "NOTFOUND" ? `12G ${gameData.datasets[0].data[0]}W ${gameData.datasets[0].data[1]}L ` : `0G 0W 0L`}</div>
+                <div className="pt-2">
                   <Doughnut data={gameData} options={options} />
                 </div>
               </div>
