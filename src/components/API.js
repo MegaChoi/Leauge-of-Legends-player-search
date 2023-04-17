@@ -1,5 +1,4 @@
 import axios from "axios";
-import firebase from 'firebase/app';
 
 const apiKey = import.meta.env.VITE_MY_API_KEY ;
 const api = {

@@ -4,7 +4,8 @@ import api from "./API";
 import { FaStar } from "react-icons/fa";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-
+import {db} from './firebase-config'
+import { doc,setDoc, addDoc, collection, query, where, getDoc} from "firebase/firestore";
 
 ChartJS.register(
   ArcElement, 
@@ -14,9 +15,14 @@ ChartJS.register(
 
 
 function Content ({playerData}) {
+
+    if(playerData.puuid === undefined){
+      playerData.puuid = "NOTFOUND"
+    }
     const [matches, setMatches] = useState(null);
     const [mounted, setMounted] = useState(false);
     const [star, setStar] = useState(false);
+    const starCollectionRef = collection(db, "player")
     const [gameData, setGameData ] = useState(
       {
 
@@ -44,6 +50,25 @@ function Content ({playerData}) {
         }
       }
 
+      // check if user data is in the database yet
+      async function getStar(){
+        
+        const docSnapshot = await getDoc(doc(db,"player",playerData.puuid));
+        // if playerPuuid is exist
+        if (docSnapshot.exists()) {
+          
+          console.log(docSnapshot.data().star)
+          setStar(docSnapshot.data().star)
+        // else if playerPuuid doesnt exist 
+        } else {
+          
+          console.log("No matching documents.");
+          await setDoc(doc(db, "player", playerData.puuid), { star: false });
+        }
+      }
+
+      getStar()
+
       if(mounted){
         getMatches();
       }else{
@@ -57,6 +82,8 @@ function Content ({playerData}) {
         getWinPercentage();
       }
     }, [matches]);
+    
+
 
     function getWinPercentage(){
       var gameWin = 0;
@@ -99,9 +126,9 @@ function Content ({playerData}) {
         return <img className="h-28 w-28 bg-green-100 rounded-xl border border-white border-4" alt = "profile icon"/>;
       }
     }
-    function starStatus () {
+    async function starStatus () {
       setStar(!star);
-      console.log(star)
+      await setDoc(doc(db, "player", playerData.puuid), { star: !star });
     };
     const options = {
       responsive: false,
@@ -116,6 +143,7 @@ function Content ({playerData}) {
       },
     };
 
+    // console.log(star)
     return (
         // 
         <section className="pt-6">
